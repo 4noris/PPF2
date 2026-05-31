@@ -124,13 +124,32 @@ p {
 
 .contact-landing {
   display: grid;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   min-height: calc(100vh - 5.75rem);
   padding: 8rem 0 2rem;
   border-bottom: 1px solid var(--line);
 }
 
+.network-scene {
+  position: absolute;
+  top: -6rem;
+  bottom: -4rem;
+  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  height: calc(100% + 10rem);
+  opacity: 0.42;
+  pointer-events: none;
+  transform: translateX(-50%);
+  mix-blend-mode: screen;
+}
+
 .landing-main {
   display: grid;
+  position: relative;
+  z-index: 1;
   grid-template-columns: minmax(0, 0.95fr) minmax(16rem, 0.48fr) minmax(20rem, 0.72fr);
   grid-template-areas:
     "title . copy"
@@ -174,16 +193,33 @@ p {
   text-align: center;
   white-space: nowrap;
   overflow-wrap: anywhere;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .landing-email span {
   color: var(--text);
   font-size: 1.55rem;
   line-height: 1;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.landing-email:hover {
+  color: var(--text);
+}
+
+.landing-email:hover span {
+  color: var(--green);
+  transform: translate(0.22rem, 0.22rem);
 }
 
 .landing-footer {
   display: flex;
+  position: relative;
+  z-index: 1;
   align-self: end;
   align-items: center;
   justify-content: space-between;
@@ -461,6 +497,7 @@ p {
 
 .project-card {
   display: grid;
+  position: relative;
   grid-template-columns: 4.5rem 1fr;
   gap: 1.25rem;
   min-height: 8rem;
@@ -468,10 +505,45 @@ p {
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
+  overflow: hidden;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.project-card::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(155, 231, 193, 0.08), transparent 42%),
+    linear-gradient(180deg, rgba(232, 184, 109, 0.08), transparent 54%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.project-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .project-card span {
   color: var(--amber);
+  transition: transform 180ms ease;
+}
+
+.project-card:hover {
+  border-color: rgba(155, 231, 193, 0.34);
+  transform: translateY(-2px);
+}
+
+.project-card:hover::after {
+  opacity: 1;
+}
+
+.project-card:hover span {
+  transform: translateX(0.25rem);
 }
 
 .credential-grid {
@@ -534,6 +606,10 @@ p {
     padding-top: 5rem;
   }
 
+  .network-scene {
+    opacity: 0.32;
+  }
+
   .profile-hero {
     padding-top: 5rem;
   }
@@ -574,6 +650,10 @@ p {
   .contact-landing {
     min-height: calc(100vh - 6.75rem);
     padding: 3rem 0 1.5rem;
+  }
+
+  .network-scene {
+    opacity: 0.24;
   }
 
   .profile-hero {
